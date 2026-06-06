@@ -2,21 +2,18 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday! ✨</title>
     <style>
-        /* Mengunci layar agar tidak ada margin tersisa */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
             background-color: #ffeef2;
             font-family: Arial, sans-serif;
-            overflow: hidden; /* Mengunci scroll default */
         }
 
-        /* LAYAR PEMBUKA (COVER) - Dibuat Penuh 1 Layar */
+        /* LAYAR PEMBUKA (COVER) */
         .cover-screen {
             position: fixed;
             top: 0;
@@ -29,109 +26,151 @@
             justify-content: center;
             align-items: center;
             z-index: 99999;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            transition: opacity 1s ease, visibility 1s;
             text-align: center;
             padding: 20px;
             box-sizing: border-box;
         }
 
+        /* Animasi Kotak Kado Bergoyang Ringan */
+        .gift-box {
+            font-size: 80px;
+            cursor: pointer;
+            display: inline-block;
+            animation: goyangKado 1.5s infinite ease-in-out;
+            transition: transform 0.3s ease;
+        }
+        
+        .gift-box:active {
+            transform: scale(0.9);
+        }
+
+        @keyframes goyangKado {
+            0%, 100% { transform: rotate(0deg); }
+            20% { transform: rotate(-8deg); }
+            40% { transform: rotate(7deg); }
+            60% { transform: rotate(-5deg); }
+            80% { transform: rotate(3deg); }
+        }
+
         .cover-screen h1 {
             color: #ff6b8b;
-            font-size: 26px;
-            margin-bottom: 10px;
+            font-size: 22px;
+            margin-top: 20px;
+            margin-bottom: 5px;
         }
 
         .cover-screen p {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 25px;
+            color: #888;
+            font-size: 13px;
         }
 
-        .open-btn {
-            background-color: #ff6b8b;
-            color: white;
-            border: none;
-            padding: 15px 35px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(255, 107, 139, 0.4);
-            cursor: pointer;
-            animation: denyut 1.5s infinite;
-        }
-
-        @keyframes denyut {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* WADAH UTAMA UNTUK SLIDE - Efek Magnet Per Halaman */
-        .main-slider {
+        /* WADAH UTAMA FOTO (Berurutan ke bawah) */
+        .container {
             width: 100%;
-            height: 100%;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory; /* Membuat scroll otomatis mengunci per halaman */
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* SETIAP HALAMAN FOTO (Selalu 100% Layar) */
-        .slide-page {
-            width: 100%;
-            height: 100vh; /* Pas setinggi layar HP/Laptop user */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            scroll-snap-align: start; /* Mengunci halaman di awal */
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 15px;
             box-sizing: border-box;
-            padding: 10px; /* Jarak aman tipis agar foto tidak kepotong poni HP */
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Jarak antar foto */
         }
 
-        /* Mengatur Foto Agar Menyesuaikan Layar Secara Penuh */
         .background-canva {
             width: 100%;
-            height: 100%;
-            object-fit: contain; /* Foto akan membesar semaksimal mungkin tanpa terpotong */
-            border-radius: 8px;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* EFEK ANIMASI MAWAR JATUH */
+        .rose-petal {
+            position: fixed;
+            top: -20px;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 24px;
+            user-select: none;
+            animation: jatuh beralih linier;
+            animation-duration: 4s;
+        }
+
+        @keyframes jatuh {
+            0% {
+                top: -20px;
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                top: 105vh;
+                transform: translateX(100px) rotate(360deg);
+                opacity: 0.3;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- HALAMAN COVER DEPAN -->
+    <!-- HALAMAN COVER DEPAN DENGAN KADO -->
     <div class="cover-screen" id="cover">
-        <h1>Ada kejutan buat kamu... 💖</h1>
-        <p>Silakan klik tombol di bawah ini ya!</p>
-        <button class="open-btn" onclick="bukaKado()">✨ Buka Kado ✨</button>
+        <!-- Menggunakan Emoji Kado yang besar dan otomatis disupport semua HP -->
+        <div class="gift-box" onclick="bukaKado()">🎁</div>
+        <h1>Ada kado spesial buat kamu... 💖</h1>
+        <p>Sentuh kadonya untuk membuka</p>
     </div>
 
-    <!-- WADAH SLIDE HALAMAN PENH -->
-    <div class="main-slider">
-        <!-- HALAMAN 1 -->
-        <div class="slide-page">
-            <img src="1.png" class="background-canva" alt="Scrapbook Foto 1">
-        </div>
-        
-        <!-- HALAMAN 2 -->
-        <div class="slide-page">
-            <img src="2.png" class="background-canva" alt="Scrapbook Foto 2">
-        </div>
+    <!-- ISI KADO (2 Foto Menyambung ke Bawah) -->
+    <div class="container">
+        <img src="1.png" class="background-canva" alt="Scrapbook Foto 1">
+        <img src="2.png" class="background-canva" alt="Scrapbook Foto 2">
     </div>
 
-    <!-- AUDIO -->
+    <!-- PEMUTAR AUDIO -->
     <audio id="bgMusic" loop>
         <source src="mp3.mp3" type="audio/mpeg">
     </audio>
 
     <script>
         function bukaKado() {
+            // 1. Putar musik otomatis
             var audio = document.getElementById('bgMusic');
             audio.play();
 
+            // 2. Munculkan efek mawar banyak
+            hujanMawar();
+
+            // 3. Hilangkan cover pelan-pelan (fade out)
             var cover = document.getElementById('cover');
             cover.style.opacity = '0';
             cover.style.visibility = 'hidden';
+        }
+
+        // Fungsi pembuat efek kelopak mawar berguguran
+        function hujanMawar() {
+            const variasiMawar = ['🌹', '🌸', '❤️']; // Jenis mawar dan hati
+            
+            // Membuat 40 kelopak mawar secara bergantian agar terlihat natural
+            for (let i = 0; i < 45; i++) {
+                setTimeout(() => {
+                    const petal = document.createElement('div');
+                    petal.classList.add('rose-petal');
+                    
+                    // Acak jenis mawar, posisi kiri, dan kecepatan jatuhnya
+                    petal.innerText = variasiMawar[Math.floor(Math.random() * variasiMawar.length)];
+                    petal.style.left = Math.random() * 100 + 'vw';
+                    petal.style.animationDuration = (Math.random() * 2 + 3) + 's'; // antara 3 - 5 detik
+                    petal.style.fontSize = (Math.random() * 15 + 15) + 'px'; // ukuran acak agar estetik
+                    
+                    document.body.appendChild(petal);
+
+                    // Hapus elemen dari sistem kalau sudah jatuh ke bawah agar HP tidak lemot
+                    setTimeout(() => {
+                        petal.remove();
+                    }, 5000);
+                }, i * 150); // Jeda waktu per mawar muncul
+            }
         }
     </script>
 
