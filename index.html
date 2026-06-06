@@ -10,8 +10,8 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #120a0d; /* Menggunakan tema gelap estetik sesuai gambar */
-            font-family: 'Georgia', serif; /* Font melengkung elegan mirip referensi */
+            background-color: #120a0d;
+            font-family: 'Georgia', serif;
             overflow: hidden;
         }
 
@@ -22,7 +22,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #ffeef2; /* Awalnya pink cerah ceria */
+            background-color: #ffeef2;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -57,14 +57,14 @@
             margin-top: 25px;
         }
 
-        /* 2. LAYAR ANIMASI TEKS & BUNGA BERPUTAR (SETELAH KADO DIKLIK) */
+        /* 2. LAYAR ANIMASI TEKS & BUNGA BERPUTAR */
         .letter-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #120a0d; /* Gelap romantis */
+            background-color: #120a0d;
             display: none; /* Muncul setelah kado diklik */
             flex-direction: column;
             justify-content: center;
@@ -86,15 +86,12 @@
             letter-spacing: 2px;
         }
 
-        /* Efek Ketik Huruf per Huruf */
         .main-title {
             font-size: 32px;
             font-weight: normal;
             color: #ffb3c6;
             margin-bottom: 20px;
             min-height: 40px;
-            border-right: 2px solid transparent;
-            display: inline-block;
             white-space: pre-wrap;
         }
 
@@ -106,7 +103,6 @@
             margin-bottom: 35px;
         }
 
-        /* Animasi Bunga Berputar Lembut di Tengah */
         .spinning-flower {
             font-size: 45px;
             display: inline-block;
@@ -153,12 +149,14 @@
         .main-slider {
             width: 100%;
             height: 100%;
-            display: flex;
+            display: none; /* 🔒 DIKUNCI SEMBUNYI DULU agar tidak bocor di awal */
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             position: relative;
             z-index: 2;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
         .slide-page {
@@ -199,32 +197,22 @@
 </head>
 <body>
 
-    <!-- 🎁 HALAMAN 1: KOTAK KADO -->
     <div class="cover-screen" id="cover">
         <div class="gift-box" id="box" onclick="bukaKado()">🎁</div>
         <h1>Ada kado spesial buat kamu... 💖</h1>
     </div>
 
-    <!-- 🌸 HALAMAN 2: ANIMASI TEKS & BUNGA BERPUTAR (SESUAI GAMBAR) -->
     <div class="letter-screen" id="letterView">
         <div class="sub-title">✏️ a love letter in bloom</div>
-        
-        <!-- Area Teks mengetik sendiri -->
         <div class="main-title" id="typewriter"></div>
-        
         <div class="desc-text">Every petal holds a whisper of how much you mean to me. Wishing you the happiest birthday ever.</div>
-        
-        <!-- Bunga Pink Berputar Lembut -->
         <div class="spinning-flower">🌸</div>
-        
         <div class="scroll-next" onclick="masukKeFoto()">LIHAT SCRAPBOOK KITA ➔</div>
     </div>
 
-    <!-- BACKGROUND HALAMAN FOTO -->
     <div class="bg-flowers"></div>
 
-    <!-- 🖼️ HALAMAN 3: SLIDE FOTO CANVAS -->
-    <div class="main-slider">
+    <div class="main-slider" id="photoSlider">
         <div class="slide-page">
             <img src="1.png" class="background-canva" alt="Halaman 1">
         </div>
@@ -233,25 +221,20 @@
         </div>
     </div>
 
-    <!-- AUDIO -->
     <audio id="bgMusic" loop>
         <source src="mp3.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Teks utama yang akan mengetik sendiri (Bisa kamu ubah sesuai keinginan)
         const teksKetik = "For You,\nMy Everything"; 
         let indexTeks = 0;
 
         function bukaKado() {
-            // 1. Putar Musik
             var audio = document.getElementById('bgMusic');
             audio.play().catch(e => console.log("Musik aktif"));
 
-            // 2. Efek Ledakan Kelopak Mawar
             semburanMawar();
 
-            // 3. Hilangkan kotak kado, transisi ke halaman teks estetik
             var cover = document.getElementById('cover');
             var letterView = document.getElementById('letterView');
             
@@ -261,31 +244,36 @@
                 letterView.style.display = 'flex';
                 setTimeout(() => {
                     letterView.style.opacity = '1';
-                    // Jalankan efek mengetik huruf per huruf setelah layar muncul
                     mulaiKetik();
                 }, 50);
             }, 1000);
         }
 
-        // Fungsi Efek Mengetik Huruf per Huruf
         function mulaiKetik() {
             if (indexTeks < teksKetik.length) {
                 document.getElementById("typewriter").innerHTML += teksKetik.charAt(indexTeks);
                 indexTeks++;
-                setTimeout(mulaiKetik, 120); /* Kecepatan ketik (120ms per huruf) */
+                setTimeout(mulaiKetik, 120);
             }
         }
 
-        // Fungsi Tombol Lanjut ke Foto
+        // 🛠️ URUTAN DIPERBAIKI DI SINI: Foto baru akan dipanggil setelah tombol diklik
         function masukKeFoto() {
             var letterView = document.getElementById('letterView');
+            var photoSlider = document.getElementById('photoSlider');
+            
             letterView.style.opacity = '0';
             setTimeout(() => {
                 letterView.style.display = 'none';
+                
+                // Sekarang aktifkan wadah foto dan buat efek transisinya mulus (fade-in)
+                photoSlider.style.display = 'flex';
+                setTimeout(() => {
+                    photoSlider.style.opacity = '1';
+                }, 50);
             }, 1000);
         }
 
-        // Fungsi Ledakan Mawar
         function semburanMawar() {
             const bunga = ['🌹', '🌸', '❤️', '💐'];
             const jumlahMawar = 60;
