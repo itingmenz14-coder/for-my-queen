@@ -2,74 +2,137 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Happy Birthday! ✨</title>
     <style>
-        /* Mengatur latar belakang halaman */
+        /* Mengunci layar agar tidak ada margin tersisa */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100%;
-            background-color: #ffeef2; /* Warna pink pastel lembut */
+            height: 100%;
+            background-color: #ffeef2;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Mengunci scroll default */
+        }
+
+        /* LAYAR PEMBUKA (COVER) - Dibuat Penuh 1 Layar */
+        .cover-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffeef2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .cover-screen h1 {
+            color: #ff6b8b;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .cover-screen p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .open-btn {
+            background-color: #ff6b8b;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(255, 107, 139, 0.4);
+            cursor: pointer;
+            animation: denyut 1.5s infinite;
+        }
+
+        @keyframes denyut {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* WADAH UTAMA UNTUK SLIDE - Efek Magnet Per Halaman */
+        .main-slider {
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory; /* Membuat scroll otomatis mengunci per halaman */
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* SETIAP HALAMAN FOTO (Selalu 100% Layar) */
+        .slide-page {
+            width: 100%;
+            height: 100vh; /* Pas setinggi layar HP/Laptop user */
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Memulai konten dari atas agar bisa di-scroll ke bawah */
-            font-family: Arial, sans-serif;
-        }
-
-        /* Pembungkus utama agar foto-foto tersusun rapi ke bawah */
-        .container {
-            width: 100%;
-            max-width: 600px; /* Ukuran ideal layar HP */
-            padding: 15px;
+            align-items: center;
+            scroll-snap-align: start; /* Mengunci halaman di awal */
             box-sizing: border-box;
-            display: flex;
-            flex-direction: column; /* Mengatur konten agar berurutan ke bawah */
-            gap: 15px; /* Memberikan jarak estetik antara foto 1 dan foto 2 */
+            padding: 10px; /* Jarak aman tipis agar foto tidak kepotong poni HP */
         }
 
-        /* Mengatur agar semua gambar responsif dan rapi */
+        /* Mengatur Foto Agar Menyesuaikan Layar Secara Penuh */
         .background-canva {
             width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 12px; /* Efek lengkung di pojok gambar */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Efek bayangan halus */
+            height: 100%;
+            object-fit: contain; /* Foto akan membesar semaksimal mungkin tanpa terpotong */
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- FOTO PERTAMA (Paling Atas) -->
-        <img src="1.png" class="background-canva" alt="Scrapbook Foto 1">
-        
-        <!-- FOTO KEDUA (Di Bawah Foto 1) -->
-        <img src="2.png" class="background-canva" alt="Scrapbook Foto 2">
+    <!-- HALAMAN COVER DEPAN -->
+    <div class="cover-screen" id="cover">
+        <h1>Ada kejutan buat kamu... 💖</h1>
+        <p>Silakan klik tombol di bawah ini ya!</p>
+        <button class="open-btn" onclick="bukaKado()">✨ Buka Kado ✨</button>
     </div>
 
-    <!-- Sistem pemutar audio -->
+    <!-- WADAH SLIDE HALAMAN PENH -->
+    <div class="main-slider">
+        <!-- HALAMAN 1 -->
+        <div class="slide-page">
+            <img src="1.png" class="background-canva" alt="Scrapbook Foto 1">
+        </div>
+        
+        <!-- HALAMAN 2 -->
+        <div class="slide-page">
+            <img src="2.png" class="background-canva" alt="Scrapbook Foto 2">
+        </div>
+    </div>
+
+    <!-- AUDIO -->
     <audio id="bgMusic" loop>
         <source src="mp3.mp3" type="audio/mpeg">
-        Browser kamu tidak mendukung pemutar audio.
     </audio>
 
     <script>
-        // Musik langsung berputar otomatis begitu layar HP disentuh/di-scroll pertama kali
-        function putarLaguOtomatis() {
+        function bukaKado() {
             var audio = document.getElementById('bgMusic');
-            audio.play().then(function() {
-                console.log("Musik berhasil berputar otomatis!");
-            }).catch(function(error) {
-                console.log("Menunggu sentuhan user untuk memutar lagu.");
-            });
-        }
+            audio.play();
 
-        // Mendeteksi sentuhan atau scroll pertama di layar HP
-        document.addEventListener('click', putarLaguOtomatis, { once: true });
-        document.addEventListener('touchstart', putarLaguOtomatis, { once: true });
-        document.addEventListener('scroll', putarLaguOtomatis, { once: true });
+            var cover = document.getElementById('cover');
+            cover.style.opacity = '0';
+            cover.style.visibility = 'hidden';
+        }
     </script>
 
 </body>
