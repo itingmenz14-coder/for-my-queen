@@ -10,19 +10,19 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #ffeef2;
-            font-family: Arial, sans-serif;
+            background-color: #120a0d; /* Menggunakan tema gelap estetik sesuai gambar */
+            font-family: 'Georgia', serif; /* Font melengkung elegan mirip referensi */
             overflow: hidden;
         }
 
-        /* LAYAR PEMBUKA (PORTRAIT) */
+        /* 1. LAYAR UTAMA KADO (PORTRAIT) */
         .cover-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #ffeef2;
+            background-color: #ffeef2; /* Awalnya pink cerah ceria */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -31,7 +31,7 @@
             text-align: center;
             padding: 20px;
             box-sizing: border-box;
-            transition: opacity 1s ease, visibility 1s;
+            transition: all 1.2s ease;
         }
 
         .gift-box {
@@ -40,8 +40,6 @@
             display: inline-block;
             animation: goyangKado 1.5s infinite ease-in-out;
             user-select: none;
-            position: relative;
-            z-index: 10;
         }
 
         @keyframes goyangKado {
@@ -54,70 +52,104 @@
 
         .cover-screen h1 {
             color: #ff6b8b;
+            font-family: Arial, sans-serif;
             font-size: 22px;
             margin-top: 25px;
-            margin-bottom: 5px;
         }
 
-        /* 📱 WADAH INSTRUKSI ROTASI HP (BARU) */
-        .rotate-container {
-            display: none; /* Sembunyi dulu */
+        /* 2. LAYAR ANIMASI TEKS & BUNGA BERPUTAR (SETELAH KADO DIKLIK) */
+        .letter-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #120a0d; /* Gelap romantis */
+            display: none; /* Muncul setelah kado diklik */
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            animation: munculAlami 0.5s ease-out forwards;
+            align-items: center;
+            z-index: 9999;
+            text-align: center;
+            color: #f7d6dc;
+            padding: 30px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
-        @keyframes munculAlami {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Animasi HP Berputar Gede */
-        .phone-icon {
-            font-size: 70px;
+        .sub-title {
+            font-style: italic;
+            font-size: 14px;
+            color: #a38288;
             margin-bottom: 15px;
-            animation: putarHP 2s infinite ease-in-out;
+            letter-spacing: 2px;
+        }
+
+        /* Efek Ketik Huruf per Huruf */
+        .main-title {
+            font-size: 32px;
+            font-weight: normal;
+            color: #ffb3c6;
+            margin-bottom: 20px;
+            min-height: 40px;
+            border-right: 2px solid transparent;
             display: inline-block;
+            white-space: pre-wrap;
         }
 
-        @keyframes putarHP {
-            0% { transform: rotate(0deg); }
-            50% { transform: rotate(90deg); }
-            100% { transform: rotate(90deg); }
-        }
-
-        .rotate-instruction {
-            color: #ff6b8b;
-            font-weight: bold;
-            font-size: 20px;
-            line-height: 1.5;
-            padding: 0 20px;
-        }
-
-        .rotate-sub {
-            color: #888;
+        .desc-text {
             font-size: 13px;
-            margin-top: 10px;
+            color: #8c7075;
+            max-width: 300px;
+            line-height: 1.6;
+            margin-bottom: 35px;
         }
 
-        /* BACKGROUND UTAMA (TABURAN BUNGA STATIS) */
+        /* Animasi Bunga Berputar Lembut di Tengah */
+        .spinning-flower {
+            font-size: 45px;
+            display: inline-block;
+            animation: putarBunga 6s linear infinite;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 0 10px rgba(255, 179, 198, 0.4));
+        }
+
+        @keyframes putarBunga {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .scroll-next {
+            font-size: 12px;
+            color: #ff6b8b;
+            letter-spacing: 3px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            animation: kedip 1.5s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes kedip {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* 3. BACKGROUND UTAMA FOTO */
         .bg-flowers {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #ffeef2;
-            background-image: 
-                radial-gradient(rgba(255, 107, 139, 0.15) 1px, transparent 0),
-                radial-gradient(rgba(255, 182, 193, 0.2) 2px, transparent 0);
+            background-color: #1a0f13;
+            background-image: radial-gradient(rgba(255, 107, 139, 0.1) 1px, transparent 0);
             background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
             z-index: 1;
         }
 
-        /* WADAH SLIDE LANDSCAPE */
+        /* WADAH SLIDE FOTO */
         .main-slider {
             width: 100%;
             height: 100%;
@@ -125,7 +157,6 @@
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
             position: relative;
             z-index: 2;
         }
@@ -148,10 +179,10 @@
             height: auto;
             object-fit: contain;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* ELEMEN MAWAR YANG MEMANCAR & JATUH */
+        /* MAWAR MEMANCAR */
         .rose-petal {
             position: fixed;
             pointer-events: none;
@@ -164,28 +195,35 @@
             0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 1; }
             100% { transform: translate(var(--x), var(--y)) scale(1.2) rotate(720deg); opacity: 0; }
         }
-
-        @keyframes hujan {
-            0% { top: -20px; transform: translateX(0) rotate(0deg); opacity: 1; }
-            100% { top: 105vh; transform: translateX(100px) rotate(360deg); opacity: 0.2; }
-        }
     </style>
 </head>
 <body>
 
+    <!-- 🎁 HALAMAN 1: KOTAK KADO -->
     <div class="cover-screen" id="cover">
         <div class="gift-box" id="box" onclick="bukaKado()">🎁</div>
-        <h1 id="coverText">Ada kado spesial buat kamu... 💖</h1>
-        
-        <div class="rotate-container" id="rotateWrapper">
-            <div class="phone-icon">📱➔🔁</div>
-            <div class="rotate-instruction">Aktifkan Auto-Rotate &<br>Putar HP Kamu ke Samping Ya! 🔄</div>
-            <div class="rotate-sub">(Atau ketuk layar sekali lagi untuk lanjut)</div>
-        </div>
+        <h1>Ada kado spesial buat kamu... 💖</h1>
     </div>
 
+    <!-- 🌸 HALAMAN 2: ANIMASI TEKS & BUNGA BERPUTAR (SESUAI GAMBAR) -->
+    <div class="letter-screen" id="letterView">
+        <div class="sub-title">✏️ a love letter in bloom</div>
+        
+        <!-- Area Teks mengetik sendiri -->
+        <div class="main-title" id="typewriter"></div>
+        
+        <div class="desc-text">Every petal holds a whisper of how much you mean to me. Wishing you the happiest birthday ever.</div>
+        
+        <!-- Bunga Pink Berputar Lembut -->
+        <div class="spinning-flower">🌸</div>
+        
+        <div class="scroll-next" onclick="masukKeFoto()">LIHAT SCRAPBOOK KITA ➔</div>
+    </div>
+
+    <!-- BACKGROUND HALAMAN FOTO -->
     <div class="bg-flowers"></div>
 
+    <!-- 🖼️ HALAMAN 3: SLIDE FOTO CANVAS -->
     <div class="main-slider">
         <div class="slide-page">
             <img src="1.png" class="background-canva" alt="Halaman 1">
@@ -195,46 +233,59 @@
         </div>
     </div>
 
+    <!-- AUDIO -->
     <audio id="bgMusic" loop>
         <source src="mp3.mp3" type="audio/mpeg">
     </audio>
 
     <script>
+        // Teks utama yang akan mengetik sendiri (Bisa kamu ubah sesuai keinginan)
+        const teksKetik = "For You,\nMy Everything"; 
+        let indexTeks = 0;
+
         function bukaKado() {
+            // 1. Putar Musik
             var audio = document.getElementById('bgMusic');
             audio.play().catch(e => console.log("Musik aktif"));
 
+            // 2. Efek Ledakan Kelopak Mawar
             semburanMawar();
 
-            // Sembunyikan kado lama, munculkan instruksi rotasi baru
-            document.getElementById('box').style.display = 'none';
-            document.getElementById('coverText').style.display = 'none';
-            document.getElementById('rotateWrapper').style.display = 'flex';
-
-            // Deteksi otomatis jika diputar
-            window.addEventListener("orientationchange", function() {
-                if (window.orientation === 90 || window.orientation === -90) {
-                    hilangkanCover();
-                }
-            });
-
-            // Jalan pintas jika malas putar HP atau pakai laptop: klik area layar mana saja
-            document.getElementById('cover').onclick = function(e) {
-                if (e.target.id !== 'box') { 
-                    hilangkanCover();
-                }
-            };
-        }
-
-        function hilangkanCover() {
+            // 3. Hilangkan kotak kado, transisi ke halaman teks estetik
             var cover = document.getElementById('cover');
+            var letterView = document.getElementById('letterView');
+            
             cover.style.opacity = '0';
             setTimeout(() => {
-                cover.style.visibility = 'hidden';
-                hujanMawarSantai();
-            }, 800);
+                cover.style.display = 'none';
+                letterView.style.display = 'flex';
+                setTimeout(() => {
+                    letterView.style.opacity = '1';
+                    // Jalankan efek mengetik huruf per huruf setelah layar muncul
+                    mulaiKetik();
+                }, 50);
+            }, 1000);
         }
 
+        // Fungsi Efek Mengetik Huruf per Huruf
+        function mulaiKetik() {
+            if (indexTeks < teksKetik.length) {
+                document.getElementById("typewriter").innerHTML += teksKetik.charAt(indexTeks);
+                indexTeks++;
+                setTimeout(mulaiKetik, 120); /* Kecepatan ketik (120ms per huruf) */
+            }
+        }
+
+        // Fungsi Tombol Lanjut ke Foto
+        function masukKeFoto() {
+            var letterView = document.getElementById('letterView');
+            letterView.style.opacity = '0';
+            setTimeout(() => {
+                letterView.style.display = 'none';
+            }, 1000);
+        }
+
+        // Fungsi Ledakan Mawar
         function semburanMawar() {
             const bunga = ['🌹', '🌸', '❤️', '💐'];
             const jumlahMawar = 60;
@@ -258,22 +309,6 @@
                 document.body.appendChild(petal);
                 setTimeout(() => petal.remove(), 1200);
             }
-        }
-
-        function hujanMawarSantai() {
-            const bunga = ['🌹', '🌸', '❤️'];
-            setInterval(() => {
-                const petal = document.createElement('div');
-                petal.classList.add('rose-petal');
-                petal.innerText = bunga[Math.floor(Math.random() * bunga.length)];
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.top = '-20px';
-                petal.style.animation = 'hujan 5s linear forwards';
-                petal.style.fontSize = (Math.random() * 15 + 15) + 'px';
-                
-                document.body.appendChild(petal);
-                setTimeout(() => petal.remove(), 5000);
-            }, 500);
         }
     </script>
 
