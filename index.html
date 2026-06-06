@@ -5,65 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday! ✨</title>
     <style>
-        /* Mengatur agar halaman web pas di layar HP dan tidak ada jarak kosong */
+        /* Mengatur latar belakang halaman */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
-            background-color: #ffeef2; /* Warna pink pastel lembut sebagai latar belakang luar */
+            min-height: 100%;
+            background-color: #ffeef2; /* Warna pink pastel lembut */
             display: flex;
             justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
+            align-items: flex-start; /* Memulai konten dari atas agar bisa di-scroll ke bawah */
             font-family: Arial, sans-serif;
         }
 
-        /* Pembungkus utama agar halaman web rapi saat dibuka di HP */
+        /* Pembungkus utama agar foto-foto tersusun rapi ke bawah */
         .container {
             width: 100%;
-            max-width: 600px; /* Ukuran ideal agar desain Canva lanskap kamu tidak kekecilan di HP */
-            padding: 10px;
+            max-width: 600px; /* Ukuran ideal layar HP */
+            padding: 15px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column; /* Mengatur konten agar berurutan ke bawah */
+            gap: 15px; /* Memberikan jarak estetik antara foto 1 dan foto 2 */
         }
 
-        /* Mengatur gambar desain Canva agar responsif dan tidak pecah */
+        /* Mengatur agar semua gambar responsif dan rapi */
         .background-canva {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 12px; /* Memberikan efek lengkung estetik di pojok gambar */
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Memberikan efek bayangan halus */
+            border-radius: 12px; /* Efek lengkung di pojok gambar */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Efek bayangan halus */
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Menampilkan gambar hasil download Canva kamu -->
-        <img src="desain-canva.png" class="background-canva" alt="Scrapbook Birthday">
+        <!-- FOTO PERTAMA (Paling Atas) -->
+        <img src="1.png" class="background-canva" alt="Scrapbook Foto 1">
+        
+        <!-- FOTO KEDUA (Di Bawah Foto 1) -->
+        <img src="2.png" class="background-canva" alt="Scrapbook Foto 2">
     </div>
 
-    <!-- Sistem pemutar audio (lagu akan otomatis mengulang jika habis) -->
+    <!-- Sistem pemutar audio -->
     <audio id="bgMusic" loop>
         <source src="lagu.mp3" type="audio/mpeg">
         Browser kamu tidak mendukung pemutar audio.
     </audio>
 
     <script>
-        // Trik pintar: Lagu langsung berputar otomatis begitu layar HP disentuh/diklik pertama kali
-        function putarLagu Otomatis() {
+        // Musik langsung berputar otomatis begitu layar HP disentuh/di-scroll pertama kali
+        function putarLaguOtomatis() {
             var audio = document.getElementById('bgMusic');
             audio.play().then(function() {
                 console.log("Musik berhasil berputar otomatis!");
             }).catch(function(error) {
-                console.log("Gagal autoplay karena aturan browser, menunggu sentuhan user.");
+                console.log("Menunggu sentuhan user untuk memutar lagu.");
             });
         }
 
-        // Mendeteksi sentuhan pertama di layar HP
+        // Mendeteksi sentuhan atau scroll pertama di layar HP
         document.addEventListener('click', putarLaguOtomatis, { once: true });
         document.addEventListener('touchstart', putarLaguOtomatis, { once: true });
+        document.addEventListener('scroll', putarLaguOtomatis, { once: true });
     </script>
 
 </body>
